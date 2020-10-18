@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { ResumeMediaIcon, DeleteIcon, MoveIcon } from '../icon';
-import RedditTextField from './RedditTextField';
+import { ResumeMediaIcon, DeleteIcon, MoveIcon } from '../../../components/icon';
+import RedditTextField from '../../../components/redditTextField';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 
 const useStyles = makeStyles((theme: Theme) =>

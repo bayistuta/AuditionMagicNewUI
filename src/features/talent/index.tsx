@@ -1,10 +1,9 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import MyTab from '../nav/MyTab';
-import MyTabs from '../nav/MyTabs';
+import {MyTab, MyTabs} from '../../components/nav';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Resume from './Resume';
+import Resume from './resume';
 
 interface TabPanelProps {
     children?: React.ReactNode;

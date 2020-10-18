@@ -12,8 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import MyListItem from './components/nav/MyListeItem';
-import Logo from './components/nav/Logo';
+import { Logo, MyListItem } from '../components/nav';
 import {
     DashboardIcon,
     TalentIcon,
@@ -26,8 +25,8 @@ import {
     WebsiteIcon,
     ExpandIcon,
     CollapseIcon,
-} from './components/icon';
-import Talent from './components/talent';
+} from '../components/icon';
+import Talent from '../features/talent';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import Hidden from '@material-ui/core/Hidden';

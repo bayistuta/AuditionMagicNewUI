@@ -14,4 +14,5 @@ export { default as ExpandIcon } from './Expand';
 export { default as CollapseIcon } from './Collapse';
 export { default as UpIcon } from './Up';
 export { default as DownIcon } from './Down';
+export { default as AddNewIcon } from './AddNew';
 
