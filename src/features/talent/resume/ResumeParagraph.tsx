@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }));
 
 type ResumeParagraphPara = {
-    content: string
+    content: string,
+    onCellChange: (value: string) => void,
 }
 const ResumeParagraph = (props:ResumeParagraphPara) => {
     const classes = useStyles();
@@ -20,6 +21,9 @@ const ResumeParagraph = (props:ResumeParagraphPara) => {
             placeholder="Enter text here ..."
             inputProps={{ 'aria-label': '' }}
             value={props.content}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                if (props.onCellChange !== null) props.onCellChange((event.target as HTMLInputElement).value);
+            }}
         />
     </>)
 };

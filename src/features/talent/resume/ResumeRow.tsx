@@ -26,8 +26,10 @@ export interface ResumeRowProps {
     id: any
     index: number
     columns: number,
-    values: string[]
-    moveRow: (dragIndex: number, hoverIndex: number) => void
+    values: string[],
+    onCellChange: (value: string, colum: number) => void,
+    onDeleteRow: (rowIndex: number) => void,
+    moveRow: (dragIndex: number, hoverIndex: number) => void,
 }
 
 interface DragItem {
@@ -37,20 +39,28 @@ interface DragItem {
 }
 
 
-export const ResumeRow: React.FC<ResumeRowProps> = ({ id, index, columns, values, moveRow }) => {
+export const ResumeRow = (props: ResumeRowProps) => {
     const classes = useStyles();
-   
     return (<>
         <Grid container spacing={3}>
-            {[...Array(columns)].map((e, i) => {
+            {[...Array(props.columns)].map((e, i) => {
                 return <Grid item xs>
-                    <RedditTextField fullWidth value={values[i] || ''}/>
+                    <RedditTextField fullWidth value={props.values[i] || ''} 
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            e.stopPropagation();
+                            if (props.onCellChange !== null) props.onCellChange((event.target as HTMLInputElement).value, i);
+                        }} />
                 </Grid>
             })}
             <Grid className={classes.actionContainer} >
                 <ResumeMediaIcon viewBox="0 0 16 16"  />
                 <MoveIcon viewBox="0 0 16 16"  />
-                <DeleteIcon viewBox="0 0 16 16"  />
+                <DeleteIcon viewBox="0 0 16 16" 
+                    onClick={(event: React.MouseEvent) => {
+                        event.stopPropagation();
+                        if (props.onDeleteRow !== null) props.onDeleteRow(props.index);
+                    }}
+                />
             </Grid>
         </Grid>
     </>)

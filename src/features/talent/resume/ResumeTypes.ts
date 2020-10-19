@@ -23,8 +23,11 @@ export interface IResumeTableRow {
 }
 
 export interface IResumeSectionAction {
-    onRemove: any
-    onReOrder: any
+    onRemove: any,
+    onReOrder: any,
+    onChangeText: any,
+    onDeleteTableRow: any,
+    onChangeTableConfig: any,
 }
 
 export type ResumeState = {

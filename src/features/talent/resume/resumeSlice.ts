@@ -4,7 +4,7 @@ import { Direction, ResumeSectionType, ResumeState} from './ResumeTypes'
 
 interface AddSectionPayload {
     title: string,
-    type: string,
+    type: ResumeSectionType,
 }
 
 interface OrderSectionPayload {
@@ -15,6 +15,24 @@ interface OrderSectionPayload {
 interface ChangeResumeTablePayload {
     sectionId: string,
     direction: Direction,
+}
+
+interface ChangeSectionTextPayload {
+    sectionId: string,
+    text: string,
+    row?: number,
+    column?: number
+}
+
+interface DeleteTableRowPayload {
+    sectionId: string,
+    rowIndex: number,
+}
+
+interface ChangeTableRowConfigPayload {
+    sectionId: string,
+    rows: number,
+    columns: number,
 }
 
 let initialState: ResumeState = {
@@ -78,7 +96,7 @@ const resumeSlice = createSlice({
             state.sections.push({
                 sectionId: Guid.create().toString(),
                 title: action.payload.title,
-                type: action.payload.type === 'Paragraph' ? ResumeSectionType.Paragraphy : ResumeSectionType.Table
+                type: action.payload.type
             });
         },
         removeSection(state: ResumeState, action: PayloadAction<string>) {
@@ -100,11 +118,36 @@ const resumeSlice = createSlice({
                 state.sections[toReplaceIndex] = section;
             }
         },
-        changeTableColumns(state: ResumeState, action: PayloadAction<ChangeResumeTablePayload>) {
-            
+        changeText(state: ResumeState, action: PayloadAction<ChangeSectionTextPayload>) {
+            const section = state.sections.find(x => x.sectionId === action.payload.sectionId);
+            const findSection = section || {content: []};
+            if (section?.type === ResumeSectionType.Paragraphy) {
+                section.textContent = action.payload.text;
+            } else {
+                let rowIndex = action.payload.row || 0;
+                let columnIndex = action.payload.column || 0;
+                let rows = findSection.content || [];
+                rows[rowIndex].values[columnIndex] = action.payload.text;
+            }
         },
-        changeTableRows(state: ResumeState, action: PayloadAction<ChangeResumeTablePayload>) {
-            
+        deleteTableRow(state: ResumeState, action: PayloadAction<DeleteTableRowPayload>) {
+            const section = state.sections.find(x => x.sectionId === action.payload.sectionId);
+            if (section !== null && section?.type === ResumeSectionType.Table) {
+                let rows = section.content || [];
+                if (action.payload.rowIndex < rows.length) {
+                    section.content = rows.filter((x,i) => i !== action.payload.rowIndex);
+                    section.rows = (section.rows || 0) - 1 ;
+                }
+            }
+        },
+        changeTableConfig(state: ResumeState, action: PayloadAction<ChangeTableRowConfigPayload>) {
+            const section = state.sections.find(x => x.sectionId === action.payload.sectionId && 
+                x.type === ResumeSectionType.Table);
+            const findSection = section || {rows: 0, columns: 0};
+            if (section !== null) {
+                findSection.rows = action.payload.rows;
+                findSection.columns = action.payload.columns;
+            }
         },
     }
 })
@@ -113,8 +156,9 @@ export const {
     addSection,
     removeSection,
     orderSection,
-    changeTableColumns,
-    changeTableRows
+    changeText,
+    deleteTableRow,
+    changeTableConfig
 } = resumeSlice.actions
 
 export default resumeSlice.reducer
