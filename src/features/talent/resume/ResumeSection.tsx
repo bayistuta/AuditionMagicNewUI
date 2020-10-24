@@ -14,6 +14,7 @@ import ResumeParagraph from './ResumeParagraph';
 import ResumeTable from './ResumeTable';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputBase from '@material-ui/core/InputBase';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -50,6 +51,13 @@ const useStyles = makeStyles((theme: Theme) =>
         actionContainerSelected: {
             display: 'flex',
             justifyContent: 'space-between',
+        },
+        sectionTitle: {
+            fontSize: '20px',
+            color:'#212121',
+            fontWeight: 500,
+            lineHeight: 24,
+            marginBottom: '9px'
         }
     }));
 
@@ -72,17 +80,28 @@ export const ResumeSectionComponent: React.FC<ResumeSectionState> = (props: Resu
             }}
         >
             <Typography variant="h6" gutterBottom>
-                {props.title}
+                <InputBase
+                    placeholder="Enter title here ..."
+                    value={props.title}
+                    className={classes.sectionTitle}
+                    onChange={ (event: React.ChangeEvent<{ value: unknown }>) => {
+                        props.onChangeTitle( event.target.value );
+                    }}
+                />
             </Typography>
-            {props.type === ResumeSectionType.Paragraphy &&
-                <ResumeParagraph content={props.textContent || ''}
-                    onCellChange={props.onChangeText}
-                />}
-            {props.type !== ResumeSectionType.Paragraphy &&
-                <ResumeTable rows={props.rows || 3} columns={props.columns || 4}
-                    onCellChange={props.onChangeText}
-                    onDeleteRow={props.onDeleteTableRow}
-                    content={props.content || []} />}
+            <Box onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+            }}>
+                {props.type === ResumeSectionType.Paragraphy &&
+                    <ResumeParagraph content={props.textContent || ''}
+                        onCellChange={props.onChangeText}
+                    />}
+                {props.type !== ResumeSectionType.Paragraphy &&
+                    <ResumeTable rows={props.rows || 3} columns={props.columns || 4}
+                        onCellChange={props.onChangeText}
+                        onDeleteRow={props.onDeleteTableRow}
+                        content={props.content || []} />}
+            </Box>
             <Box className={clsx(classes.actionContainer, {
                 [classes.actionContainerSelected]: props.selected
             })} >
@@ -90,7 +109,6 @@ export const ResumeSectionComponent: React.FC<ResumeSectionState> = (props: Resu
                     props.type !== ResumeSectionType.Paragraphy &&
                     <div>
                         <Select
-                            labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={props.rows}
                             onChange={ (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -102,7 +120,6 @@ export const ResumeSectionComponent: React.FC<ResumeSectionState> = (props: Resu
                             <MenuItem value={6}>6 Rows</MenuItem>
                         </Select>
                         <Select
-                            labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={props.columns}
                             onChange={ (event: React.ChangeEvent<{ value: unknown }>) => {

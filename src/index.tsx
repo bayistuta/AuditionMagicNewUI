@@ -5,11 +5,14 @@ import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import store from './app/store'
+import { ConfirmProvider } from 'material-ui-confirm';
 
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>
-        <App />
+        <ConfirmProvider>
+            <App />
+        </ConfirmProvider>
       </Provider>
    </React.StrictMode>,
   document.getElementById('root')

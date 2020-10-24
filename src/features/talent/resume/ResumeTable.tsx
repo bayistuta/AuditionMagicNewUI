@@ -11,12 +11,12 @@ type ResumeTableParam = {
 }
 const ResumeTable = (props: ResumeTableParam) => {
 
-    const moveRow = useCallback(
+    const moveRow =  useCallback(
         (dragIndex: number, hoverIndex: number) => {
+         
         },
         [],
     );
-
     return (<>
         {[...Array(props.rows)].map((e, i) => {
             let record = props.content[i];
