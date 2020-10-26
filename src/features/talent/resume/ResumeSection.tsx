@@ -15,6 +15,9 @@ import ResumeTable from './ResumeTable';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import {range} from '../../../utils/array';
+import { grey } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,7 +40,6 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: '#FFFFFF',
             boxShadow: '0px 8px 8px rgba(55, 71, 79, 0.04), 0px 8px 16px rgba(55, 71, 79, 0.08), 0px 10px 48px rgba(55, 71, 79, 0.08)',
             borderRadius: '8px',
-            minWidth: '128px',
             height: '48px',
             padding: '14px 18px',
             position: 'absolute',
@@ -46,11 +48,18 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'none',
             '& svg': {
                 cursor: 'pointer',
-            }
+            },
         },
         actionContainerSelected: {
             display: 'flex',
             justifyContent: 'space-between',
+        },
+        actionContainerItem: {
+            display: 'flex',
+            justifyContent: 'space-between',
+        },
+        actionContainerLong: {
+            width: '418px',
         },
         sectionTitle: {
             fontSize: '20px',
@@ -58,7 +67,24 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 500,
             lineHeight: 24,
             marginBottom: '9px'
-        }
+        },
+        select: {
+            width: '90px',
+            background: 'white',
+            color: '#212121',
+            fontSize: '14px',
+            backgroundColor: '#F5F5F5',
+            paddingLeft: 14,
+            borderRadius: '4px',
+            "&:hover": {
+                borderColor: grey[400],
+            },
+            "&:focus": {
+                borderRadius: '4px',
+                background: 'white',
+                borderColor: blue[200]
+            },
+        },
     }));
 
 export type ResumeSectionState = {
@@ -100,59 +126,65 @@ export const ResumeSectionComponent: React.FC<ResumeSectionState> = (props: Resu
                     <ResumeTable rows={props.rows || 3} columns={props.columns || 4}
                         onCellChange={props.onChangeText}
                         onDeleteRow={props.onDeleteTableRow}
+                        onReOrderRow={props.onReorderTableRow}
                         content={props.content || []} />}
             </Box>
             <Box className={clsx(classes.actionContainer, {
-                [classes.actionContainerSelected]: props.selected
+                [classes.actionContainerSelected]: props.selected,
+                [classes.actionContainerLong]: props.type !== ResumeSectionType.Paragraphy
             })} >
                 {
                     props.type !== ResumeSectionType.Paragraphy &&
-                    <div>
+                    <div className={classes.actionContainerItem} style={{width:270}}>
                         <Select
                             id="demo-simple-select"
+                            disableUnderline
                             value={props.rows}
+                            classes={{ root: classes.select}}
                             onChange={ (event: React.ChangeEvent<{ value: unknown }>) => {
                                 props.onChangeTableConfig(event.target.value as number, props.columns || 4);
                             }}>
-                            <MenuItem value={3}>3 Rows</MenuItem>
-                            <MenuItem value={4}>4 Rows</MenuItem>
-                            <MenuItem value={5}>5 Rows</MenuItem>
-                            <MenuItem value={6}>6 Rows</MenuItem>
+                                {range(2, 10).map( x => {
+                                    return <MenuItem value={x}>{x} Rows</MenuItem>
+                                })}
                         </Select>
                         <Select
                             id="demo-simple-select"
+                            disableUnderline
                             value={props.columns}
+                            classes={{ root: classes.select}}
                             onChange={ (event: React.ChangeEvent<{ value: unknown }>) => {
                                 props.onChangeTableConfig(props.rows || 3, event.target.value as number);
                             }}>
-                            <MenuItem value={3}>3 Columns</MenuItem>
-                            <MenuItem value={4}>4 Columns</MenuItem>
-                            <MenuItem value={5}>5 Columns</MenuItem>
-                            <MenuItem value={6}>6 Columns</MenuItem>
+                                {range(2, 6).map( x => {
+                                    return <MenuItem value={x}>{x} Columns</MenuItem>
+                                })}
                         </Select>
                     </div>
                 }
-                <DownIcon viewBox="0 0 16 16" style={{ width: 16, height: 16 }}
-                    onClick={(e: React.MouseEvent) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (typeof props.onReOrder === 'function') props.onReOrder(Direction.Down);
-                    }}
-                ></DownIcon>
-                <UpIcon viewBox="0 0 16 16" style={{ width: 16, height: 16 }}
-                    onClick={(e: React.MouseEvent) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (typeof props.onReOrder === 'function') props.onReOrder(Direction.Up);
-                    }}
-                ></UpIcon>
-                <DeleteIcon viewBox="0 0 16 16" style={{ width: 16, height: 16 }}
-                    onClick={(e: React.MouseEvent) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (typeof props.onRemove === 'function') props.onRemove();
-                    }}
-                ></DeleteIcon>
+                <div className={classes.actionContainerItem} style={{width:90}}>
+                    <DownIcon viewBox="0 0 16 16" style={{ width: 16, height: 16 }}
+                        onClick={(e: React.MouseEvent) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (typeof props.onReOrder === 'function') props.onReOrder(Direction.Down);
+                        }}
+                    ></DownIcon>
+                    <UpIcon viewBox="0 0 16 16" style={{ width: 16, height: 16 }}
+                        onClick={(e: React.MouseEvent) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (typeof props.onReOrder === 'function') props.onReOrder(Direction.Up);
+                        }}
+                    ></UpIcon>
+                    <DeleteIcon viewBox="0 0 16 16" style={{ width: 16, height: 16 }}
+                        onClick={(e: React.MouseEvent) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (typeof props.onRemove === 'function') props.onRemove();
+                        }}
+                    ></DeleteIcon>
+                </div>
             </Box>
         </Box>
     )

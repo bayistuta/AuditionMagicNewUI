@@ -44,6 +44,12 @@ interface ChangeTableRowConfigPayload {
     columns: number,
 }
 
+interface ReorderTableRowConfigPayload {
+    sectionId: string,
+    sourceIndex: number,
+    destIndex: number,
+}
+
 let initialState: ResumeState = {
     sections: [{
         sectionId: Guid.create().toString(),
@@ -166,6 +172,15 @@ const resumeSlice = createSlice({
                 findSection.columns = action.payload.columns;
             }
         },
+        reorderTableRow(state: ResumeState, action: PayloadAction<ReorderTableRowConfigPayload>) {
+            const section = state.sections.find(x => x.sectionId === action.payload.sectionId &&
+                x.type === ResumeSectionType.Table);
+            const findSection = section || { content: [] };
+            const content = findSection.content || [];
+            const [removed] = content.splice(action.payload.sourceIndex, 1);
+            content.splice(action.payload.destIndex, 0, removed);
+            findSection.content = content;
+        },
     }
 })
 
@@ -175,6 +190,7 @@ export const {
     orderSection,
     changeText,
     changeTitle,
+    reorderTableRow,
     deleteTableRow,
     changeTableConfig
 } = resumeSlice.actions

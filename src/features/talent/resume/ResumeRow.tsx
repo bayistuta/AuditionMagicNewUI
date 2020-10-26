@@ -21,18 +21,15 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     }));
 
-export const ItemTypes = {
-    CARD: 'card',
-}
 
 export interface ResumeRowProps {
     id: any
     index: number
     columns: number,
     values: string[],
+    dragableHandler: any,
     onCellChange: (value: string, colum: number) => void,
     onDeleteRow: (rowIndex: number) => void,
-    moveRow: (dragIndex: number, hoverIndex: number) => void,
 }
 
 interface DragItem {
@@ -57,7 +54,9 @@ export const ResumeRow = (props: ResumeRowProps) => {
             })}
             <Grid className={classes.actionContainer} >
                 <ResumeMediaIcon viewBox="0 0 16 16" />
-                <MoveIcon viewBox="0 0 16 16" />
+                <div {...props.dragableHandler}>
+                    <MoveIcon viewBox="0 0 16 16"  />
+                </div>
                 <DeleteIcon viewBox="0 0 16 16"
                     onClick={(event: React.MouseEvent) => {
                         event.stopPropagation();

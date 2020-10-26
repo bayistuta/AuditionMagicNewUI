@@ -24,7 +24,7 @@ interface TabPanelProps {
       >
         {value === index && (
           <Box p={3}>
-            <Typography>{children}</Typography>
+            <Box>{children}</Box>
           </Box>
         )}
       </div>
@@ -71,7 +71,7 @@ export default function Talent() {
             <TabPanel value={value} index={1}>
                 Item Two
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={value} index={2} >
                 <Resume/>
             </TabPanel>
         </>

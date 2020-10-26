@@ -27,6 +27,7 @@ import {
     CollapseIcon,
 } from '../components/icon';
 import Talent from '../features/talent';
+import Settings from '../features/settings';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import Hidden from '@material-ui/core/Hidden';
@@ -189,7 +190,8 @@ export default function App() {
             </Hidden>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <Talent />
+                {/* <Talent /> */}
+                <Settings/>
             </main>
         </div>
     );

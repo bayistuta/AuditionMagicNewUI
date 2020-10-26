@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { IResumeSection, ResumeState, Direction, ResumeSectionType } from './ResumeTypes';
 import { RootState } from '../../../app/rootReducer';
-import { removeSection, orderSection, addSection, changeText, deleteTableRow, changeTableConfig, changeTitle } from './resumeSlice'
+import { removeSection, orderSection, addSection, changeText, deleteTableRow, changeTableConfig, changeTitle, reorderTableRow } from './resumeSlice'
 import { ResumeSectionComponent as ResumeSection } from './ResumeSection';
 import { AddNewIcon } from '../../../components/icon';
 import Box from '@material-ui/core/Box';
@@ -107,6 +107,10 @@ export default function Resume() {
         dispatch(changeTableConfig({ sectionId, rows, columns }));
     }
 
+    const toReorderTableRow = (sectionId: string, sourceIndex: number, destIndex: number) => {
+        dispatch(reorderTableRow({ sectionId, sourceIndex, destIndex }));
+    } 
+
     return (<Box onClick={() => setNewDialgoOpen(false)}>
         <Box className={classes.resumeContainer}>
             {resume.sections.map((section: IResumeSection) => {
@@ -118,6 +122,7 @@ export default function Resume() {
                     onDeleteTableRow={(rowIndex: number) => toDleteTableRow(section.sectionId, rowIndex)}
                     onChangeTableConfig={(rows: number, columns: number) => toChangeTableConfig(section.sectionId, rows, columns)}
                     onChangeTitle={(title: string) => toChangeTitle(section.sectionId, title)}
+                    onReorderTableRow={(sourceIndex: number, destIndex: number) => toReorderTableRow(section.sectionId, sourceIndex, destIndex) }
                     selected={selectedSection === section.sectionId}
                     onSectionClick={(sectionId: string) => handleSectionClick(sectionId)} />
             })}

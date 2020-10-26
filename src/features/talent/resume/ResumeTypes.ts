@@ -29,6 +29,7 @@ export interface IResumeSectionAction {
     onDeleteTableRow: any,
     onChangeTableConfig: any,
     onChangeTitle: any,
+    onReorderTableRow: any,
 }
 
 export type ResumeState = {
