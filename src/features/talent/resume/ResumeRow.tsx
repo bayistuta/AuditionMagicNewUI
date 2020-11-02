@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { ResumeMediaIcon, DeleteIcon, MoveIcon } from '../../../components/icon';
-import RedditTextField from '../../../components/redditTextField';
+import { RedditTextField } from '../../../components/textField';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,7 +55,7 @@ export const ResumeRow = (props: ResumeRowProps) => {
             <Grid className={classes.actionContainer} >
                 <ResumeMediaIcon viewBox="0 0 16 16" />
                 <div {...props.dragableHandler}>
-                    <MoveIcon viewBox="0 0 16 16"  />
+                    <MoveIcon viewBox="0 0 16 16" />
                 </div>
                 <DeleteIcon viewBox="0 0 16 16"
                     onClick={(event: React.MouseEvent) => {

@@ -6,16 +6,20 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import store from './app/store'
 import { ConfirmProvider } from 'material-ui-confirm';
+import SwitchThemeProvider from './app/SwitchThemeProvider';
 
 ReactDOM.render(
-  <React.StrictMode>
-      <Provider store={store}>
-        <ConfirmProvider>
-            <App />
-        </ConfirmProvider>
-      </Provider>
-   </React.StrictMode>,
-  document.getElementById('root')
+    // <React.StrictMode>
+    <SwitchThemeProvider>
+        <Provider store={store}>
+            <ConfirmProvider>
+                <App />
+            </ConfirmProvider>
+        </Provider>
+    </SwitchThemeProvider>
+    ,
+    // </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

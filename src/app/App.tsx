@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext, useState } from "react";
 import clsx from "clsx";
 import {
     useTheme,
@@ -59,7 +59,7 @@ export default function App() {
             setDrawerCollapse(currentCollapseState);
         }
     };
-    
+
     const myDrawer = (<div>
         <div className={classes.drawerHeader}>
             <Logo />
@@ -119,6 +119,7 @@ export default function App() {
             </IconButton>
         </div>
     </div>);
+
 
     return (
         <div className={classes.root}>
@@ -191,7 +192,7 @@ export default function App() {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 {/* <Talent /> */}
-                <Settings/>
+                <Settings />
             </main>
         </div>
     );
